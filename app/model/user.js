@@ -5,7 +5,7 @@ module.exports = app =>{
             type:STRING(255),
             allowNull:false,
             primaryKey:true,
-            field:'userid'
+            field:'id'
         },
         username:{
             type:STRING(255),
@@ -16,6 +16,11 @@ module.exports = app =>{
             type:STRING(255),
             allowNull:true,
             field:"mobile"
+        },
+        email: {
+            type: STRING(255),
+            allowNull: false,
+            field: 'email'
         },
         state:{
             type:STRING(255),
@@ -36,7 +41,7 @@ module.exports = app =>{
         tableName:"user"
     });
     User.associate = function(){
-        app.model.User.belongsTo(app.model.UserRole,{foreignKey:'userid',targetKey:'userId'})
+        app.model.User.belongsTo(app.model.UserRole,{foreignKey:'id',targetKey:'userId',constraints: false})
     }
     return User;
 }

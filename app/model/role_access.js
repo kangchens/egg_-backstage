@@ -29,7 +29,7 @@ module.exports = app =>{
         tableName:'role_access'
     })
     RoleAccess.associate = function(){
-        app.model.RoleAccess.hasMany(app.model.Role,{foreignKey:'id',targetKey:'roleId',constraints: false})
+        app.model.RoleAccess.hasOne(app.model.Role,{foreignKey:'id',targetKey:'roleId',constraints: false})
     }
     return RoleAccess;
 }

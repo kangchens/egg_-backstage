@@ -23,7 +23,6 @@ module.exports = class User extends Service{
     }
     //用户注册
     async addOneUser(username,password,mobile,email,roleId){
-        console.log("=================>")
         let addTime = await this.ctx.service.tool.getTime();
         let result = await this.app.model.User.findOne({
             where:{
@@ -32,6 +31,7 @@ module.exports = class User extends Service{
         })
         const t = await this.app.model.transaction({autocommit:true});
         const uuid = await this.service.tool.uuid();
+        console.log('result=================>',result)
         if(result === null ){
             try {
                 await this.app.model.User.create({
@@ -44,7 +44,7 @@ module.exports = class User extends Service{
                 await t.commit();
                 return true
             } catch (error) {
-                console.log(error)
+                console.log('errrrrr=============>',error)
                 //数据回滚
                 await t.rollback()
                 return false

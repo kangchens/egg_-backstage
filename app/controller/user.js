@@ -56,6 +56,7 @@ class UserController extends Controller{
         password = md5(password);
         email = decodeURIComponent(email);
         let result = await this.ctx.service.user.addOneUser(username,password,mobile,email,roleId);
+        console.log("result==>",result)
         if(result){
             this.ctx.body = {
               code:1,
