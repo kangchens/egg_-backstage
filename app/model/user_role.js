@@ -3,7 +3,7 @@ module.exports = app =>{
     const UserRole = app.model.define("userRole",{
         id:{
             type:INTEGER(10),
-            allowNull:true,
+            allowNull:false,
             primaryKey:true,
             autoIncrement:true,
             field:'id'
@@ -30,8 +30,8 @@ module.exports = app =>{
         tableName:'user_role'
     })
     UserRole.associate = function(){
-        app.model.UserRole.belongsTo(app.model.Role,{foreignKey:'roleId',targetKey:'id'});
-        app.model.UserRole.hasOne(app.model.User,{foreignKey:'id',targetKey:'userId',constraints: false})
+        app.model.UserRole.belongsTo(app.model.Role,{foreignKey:'roleId',targetKey:'id',constraints: false});
+        app.model.UserRole.hasOne(app.model.User,{foreignKey:'id',targetKey:'userId'})
     }
     
     return UserRole;
