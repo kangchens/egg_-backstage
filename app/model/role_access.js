@@ -3,7 +3,7 @@ module.exports = app =>{
     const RoleAccess = app.model.define('roleAccess',{
         id:{
             type: INTEGER(10),
-            allowNull: true,
+            allowNull: false,
             primaryKey: true,
             field: 'id' 
         },
