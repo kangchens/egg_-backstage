@@ -54,4 +54,19 @@ module.exports = class User extends Service{
             return false
         }
     }
+    //获取用户列表
+    async userList(obj){
+        let {name,id,mobile,roleId,offset,limit} = obj
+        console.log('obj===============>',obj)
+        let result = await this.app.model.User.findAndCountAll({
+            offset,
+            limit
+        })
+        console.log(result,'result')
+        if(result){
+            return result
+        }else{
+            return false
+        }
+    }
 }

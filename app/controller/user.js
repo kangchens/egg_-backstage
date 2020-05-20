@@ -107,5 +107,29 @@ class UserController extends Controller{
     loginoutUser(){
 
     }
+    /**
+     * @summary 获取用户列表
+     * @description 用户列表 
+     * @router get /user/userlist
+     * @response 200 loginoutResponse 获取成功
+     */
+    async userList(){
+      let {name,id,mobile,roleId,offset,limit} = this.ctx.request.body
+      console.log('this.ctx.request.body=====================>',this.ctx.request.body)
+      let result = this.ctx.service.user.userList({name,id,mobile,roleId,offset,limit})
+      if(result){
+        this.ctx.body={
+          code:1,
+          message:true,
+          data:result
+        }
+      }else{
+        this.ctx.body={
+          code:1,
+          message:'获取失败',
+          data:null
+        }
+      }
+    }
 }
 module.exports = UserController;
