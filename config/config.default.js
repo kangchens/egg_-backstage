@@ -22,7 +22,10 @@ module.exports = appInfo => {
     renew: true,
   };
   // add your middleware config here
-  config.middleware = [];
+  config.middleware = ['jwts'];
+  config.jwts = {
+    ignore:['/base','/user/login']
+  }
   //swaggerdoc配置
   config.swaggerdoc = {
       dirScanner: './app/controller',
@@ -38,6 +41,10 @@ module.exports = appInfo => {
       // enableValidate: true,
       routerMap: true,
       enable: true,
+    }
+    //token生成
+    config.jwt = {
+      secret: '123456',
     }
     //关闭csrf验证功能
     config.security={

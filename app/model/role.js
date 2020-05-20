@@ -32,7 +32,7 @@ module.exports = app =>{
         tableName:'role'
     })
     Role.associate = function(){
-        app.model.Role.hasOne(app.model.UserRole,{foreignKey:'id',targetKey:'roleId'})
+        app.model.Role.hasOne(app.model.UserRole,{foreignKey:'roleIdid',targetKey:'id'})
         app.model.Role.belongsTo(app.model.RoleAccess,{foreignKey:'id',targetKey:'roleId',constraints: false})
     }
     

@@ -22,15 +22,27 @@ class UserController extends Controller{
      * @response 200 loginResponse 登录成功
      */
     async loginUser(){
+        let {ctx,app} = this;
         let {username,password,captcha} = this.ctx.request.body;
         password = md5(password);
         console.log("password==>",password)
         let result = await this.ctx.service.user.login(username,password);
-        console.log("captcha==>",captcha,this.ctx.session.captcha)
+        const token = app.jwt.sign({
+            nickname: result.username,
+          }, app.config.jwt.secret,{
+            expiresIn: '1h', // 时间根据自己定，具体可参考jsonwebtoken插件官方说明
+          });
+          console.log('token===============>',token)
         if(captcha.toLocaleLowerCase() === this.ctx.session.captcha.toLocaleLowerCase()){
             this.ctx.body = {
                 code:1,
-                data:result,
+                data:{
+                    id:result.id,
+                    username:result.username,
+                    mobile:result.mobile,
+                    roleId:result.roleId,
+                    token
+                },
                 message:true
             }
         }else{
@@ -94,6 +106,30 @@ class UserController extends Controller{
      */
     loginoutUser(){
 
+    }
+    /**
+     * @summary 获取用户列表
+     * @description 用户列表 
+     * @router get /user/userlist
+     * @response 200 loginoutResponse 获取成功
+     */
+    async userList(){
+      let {name,id,mobile,roleId,offset,limit} = this.ctx.request.body
+      console.log('this.ctx.request.body=====================>',this.ctx.request.body)
+      let result = this.ctx.service.user.userList({name,id,mobile,roleId,offset,limit})
+      if(result){
+        this.ctx.body={
+          code:1,
+          message:true,
+          data:result
+        }
+      }else{
+        this.ctx.body={
+          code:1,
+          message:'获取失败',
+          data:null
+        }
+      }
     }
 }
 module.exports = UserController;

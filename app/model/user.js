@@ -12,6 +12,11 @@ module.exports = app =>{
             allowNull:false,
             field:'username'
         },
+        password:{
+            type:STRING(255),
+            allowNull:true,
+            field:"password"
+        },
         mobile:{
             type:STRING(255),
             allowNull:true,
@@ -21,11 +26,6 @@ module.exports = app =>{
             type: STRING(255),
             allowNull: false,
             field: 'email'
-        },
-        state:{
-            type:STRING(255),
-            allowNull:true,
-            field:"password"
         },
         isSuper:{
             type:STRING(255),
