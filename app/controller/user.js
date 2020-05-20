@@ -22,15 +22,27 @@ class UserController extends Controller{
      * @response 200 loginResponse 登录成功
      */
     async loginUser(){
+        let {ctx,app} = this;
         let {username,password,captcha} = this.ctx.request.body;
         password = md5(password);
         console.log("password==>",password)
         let result = await this.ctx.service.user.login(username,password);
-        console.log("captcha==>",captcha,this.ctx.session.captcha)
+        const token = app.jwt.sign({
+            nickname: result.username,
+          }, app.config.jwt.secret,{
+            expiresIn: '1h', // 时间根据自己定，具体可参考jsonwebtoken插件官方说明
+          });
+          console.log('token===============>',token)
         if(captcha.toLocaleLowerCase() === this.ctx.session.captcha.toLocaleLowerCase()){
             this.ctx.body = {
                 code:1,
-                data:result,
+                data:{
+                    id:result.id,
+                    username:result.username,
+                    mobile:result.mobile,
+                    roleId:result.roleId,
+                    token
+                },
                 message:true
             }
         }else{
