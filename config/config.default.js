@@ -52,7 +52,7 @@ module.exports = appInfo => {
       dialect:'mysql',
       host: "localhost",
       username: "root",
-      password: "SIGmh6lDRL_Q",
+      password: "19950127",
       database: "console"
     }
     
