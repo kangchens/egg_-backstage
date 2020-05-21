@@ -59,8 +59,8 @@ module.exports = class User extends Service{
         let {name,id,mobile,roleId,offset,limit} = obj
         console.log('obj===============>',obj)
         let result = await this.app.model.User.findAndCountAll({
-            offset,
-            limit
+            offset:0,
+            limit:10
         })
         console.log(result,'result')
         if(result){

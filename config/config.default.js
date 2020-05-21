@@ -24,7 +24,7 @@ module.exports = appInfo => {
   // add your middleware config here
   config.middleware = ['jwts'];
   config.jwts = {
-    ignore:['/base','/user/login']
+    ignore:['/base','/user/login','/','/swagger-ui.html']
   }
   //swaggerdoc配置
   config.swaggerdoc = {
@@ -71,5 +71,6 @@ module.exports = appInfo => {
   return {
     ...config,
     ...userConfig,
+    
   };
 };

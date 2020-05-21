@@ -114,8 +114,8 @@ class UserController extends Controller{
      * @response 200 loginoutResponse 获取成功
      */
     async userList(){
-      let {name,id,mobile,roleId,offset,limit} = this.ctx.request.body
-      console.log('this.ctx.request.body=====================>',this.ctx.request.body)
+      console.log('this.ctx.query=====================>',this.ctx.query)
+      let {name,id,mobile,roleId,offset,limit} = this.ctx.query
       let result = this.ctx.service.user.userList({name,id,mobile,roleId,offset,limit})
       if(result){
         this.ctx.body={
