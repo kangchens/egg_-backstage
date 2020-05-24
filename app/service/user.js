@@ -59,12 +59,20 @@ module.exports = class User extends Service{
         let {name,id,mobile,roleId,offset,limit} = obj
         
         console.log('obj===============>',obj)
+        let conditions = {}
+        name ? conditions.username = name : '';
+        id ? conditions.id = id : '';
+        mobile ? conditions.mobile = mobile : '';
+        let childrenConditions = {}
+        roleId ? childrenConditions.role_id = roleId : null;
         let result = await this.app.model.User.findAndCountAll({
             include:{
                 model:this.app.model.UserRole,
                 attributes:['roleId'],
-                required: true
+                required: true,
+                where:childrenConditions
             },
+            where:conditions,
             offset:parseInt(offset),
             limit:parseInt(limit)
         })
@@ -75,4 +83,5 @@ module.exports = class User extends Service{
             return false
         }
     }
+    //修改用户信息
 }
