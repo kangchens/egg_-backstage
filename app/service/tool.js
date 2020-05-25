@@ -21,4 +21,27 @@ module.exports = class ToolService extends Service{
     async uuid(){
         return uuid()
     }
+    async downloader(object){
+        let {name,id,mobile,roleId,offset,limit} = object
+        let conditions = {}
+        name ? conditions.username = name : '';
+        id ? conditions.id = id : '';
+        mobile ? conditions.mobile = mobile : '';
+        let childrenConditions = {}
+        roleId ? childrenConditions.role_id = roleId : null;
+        let result = await this.app.model.User.findAll({
+            include:{
+                model:this.app.model.UserRole,
+                attributes:['roleId'],
+                required: true,
+                where:childrenConditions
+            },
+            where:conditions
+        })
+        console.log('result=============>',result);
+        let title = ['用户id','用户名','手机号','邮箱号','角色类型']
+        let res = await this.ctx.helper.excelDown(result,title)
+        console.log('this.ctx.helper.excelDown=============>',res)
+        return res
+    }
 }

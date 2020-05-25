@@ -130,5 +130,27 @@ class UserController extends Controller{
         }
       }
     }
+    /**
+     * @summary 更改用户信息
+     * @description 更改用户信息 
+     * @router post /user/changeDetail
+     * @response 200 loginoutResponse 获取成功
+     */
+    async changeDetail(){
+      let result = await this.ctx.service.user.changeDetail(this.ctx.request.body);
+      if(result){
+        this.ctx.body={
+          code:1,
+          message:true,
+          data:result
+        }
+      }else{
+        this.ctx.body={
+          code:0,
+          message:'修改失败',
+          data:null
+        }
+      }
+    }
 }
 module.exports = UserController;

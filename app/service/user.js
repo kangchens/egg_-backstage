@@ -57,8 +57,6 @@ module.exports = class User extends Service{
     //获取用户列表
     async userList(obj){
         let {name,id,mobile,roleId,offset,limit} = obj
-        
-        console.log('obj===============>',obj)
         let conditions = {}
         name ? conditions.username = name : '';
         id ? conditions.id = id : '';
@@ -76,7 +74,6 @@ module.exports = class User extends Service{
             offset:parseInt(offset),
             limit:parseInt(limit)
         })
-        console.log('result============================>',result.rows)
         if(result){
             return result
         }else{
@@ -84,4 +81,33 @@ module.exports = class User extends Service{
         }
     }
     //修改用户信息
+    async changeDetail(object){
+        let {id,username,mobile,email,userRole} = object
+        console.log('userRole===========>',userRole)
+        let result = await this.app.model.User.update({
+            id,
+            username,
+            mobile,
+            email
+        },{
+            where:{
+                id
+            }
+        })
+        let results = await this.app.model.UserRole.update({
+            roleId:parseInt(userRole.roleId)
+        },{
+            where:{
+                userId:id
+            }
+        })
+        
+        console.log('results=============>',results)
+        if(result && results){
+            return result
+        }else{
+            return false
+        }
+        // console.log('object========>',object)
+    }
 }
