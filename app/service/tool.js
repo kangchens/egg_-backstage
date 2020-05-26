@@ -38,10 +38,6 @@ module.exports = class ToolService extends Service{
             },
             where:conditions
         })
-        console.log('result=============>',result);
-        let title = ['用户id','用户名','手机号','邮箱号','角色类型']
-        let res = await this.ctx.helper.excelDown(result,title)
-        console.log('this.ctx.helper.excelDown=============>',res)
-        return res
+        return result
     }
 }

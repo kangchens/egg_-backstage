@@ -21,11 +21,38 @@ function colWidth(arg_ws, arg_cols, arg_width) {
       arg_ws.getColumn(arg_cols[i]).width = arg_width;
   }
 }
-exports.excelNew = async (url, req, headers, name, func) =>{
+exports.excelDown = async (data,title,that)=>{
+  let {ctx} = that
+  console.log('ctx=====================>',data)
+  let workbook = new Excel.Workbook();
+  workbook.creator = '陈康';
+  workbook.lastModifiedBy = 'Her';
+  workbook.created = new Date(1985, 8, 30);
+  workbook.modified = new Date();
+  workbook.lastPrinted = new Date(2016, 9, 27);
+  // 将工作簿日期设置为 1904 年日期系统
+  workbook.properties.date1904 = true;
+  // 在加载时强制工作簿计算属性
+  workbook.calcProperties.fullCalcOnLoad = true;
+  //添加工作表
+  // 创建带有红色标签颜色的工作表
+  let sheet = workbook.addWorksheet('My Sheet',{properties:{tabColor:{argb:'FFC0000'}}});
+  // 使用工作表 id 删除工作表
+  // workbook.removeWorksheet(sheet.id)
+  sheet.addRow(title);
+  // rowCenter(sheet, 6, 13);　
+  // colWidth(sheet, [1,2,3,4,5], 20);
+  let fileName = 'test.xlsx';
+  ctx.response.attachment(fileName);
+  ctx.status = 200;
+  await workbook.xlsx.write(ctx.res);
+  ctx.res.end()
+}
+exports.excelNew = async (_this,result, req, headers, name, func) =>{
     let columns = [];//exceljs要求的columns
     let hjRow = {};//合计行
     let titleRows = headers.length;//标题栏行数
- 
+    console.log('result================================>',result)
     //处理表头
     for (let i = 0; i < titleRows; i++) {
       let row = headers[i];
@@ -43,31 +70,14 @@ exports.excelNew = async (url, req, headers, name, func) =>{
         columns.push(col);
       }
     }
- 
-    const result = await this.post(url, req);//请求数据
-    let data = result.data;
+    let data = result;
     if (func) data = func(data);
  
-    //处理合计行
-    if (JSON.stringify(hjRow) != "{}") {
-      let tr = {};
-      for (let i = 0, len = data.data.length; i < len; i++) {
-        let item = data.data[i];
-        for (let key in item) {
-          if (hjRow[key] === true) {
-            tr[key] = (tr[key] || 0) + item[key];
-            continue;
-          }
-          tr[key] = hjRow[key] || '';
-        }
-      }
-      data.data.push(tr);
-    }
  
     let workbook = new Excel.Workbook();
     let sheet = workbook.addWorksheet('My Sheet', { views: [{ xSplit: 1, ySplit: 1 }] });
     sheet.columns = columns;
-    sheet.addRows(data.data);
+    sheet.addRows(data);
  
     //处理复杂表头
     if (titleRows > 1) {
@@ -110,33 +120,12 @@ exports.excelNew = async (url, req, headers, name, func) =>{
       });
     });
  
-    this.ctx.set('Content-Type', 'application/vnd.openxmlformats');
-    this.ctx.set('Content-Disposition', "attachment;filename*=UTF-8' '" + encodeURIComponent(name) + '.xlsx');
-    this.ctx.body = await workbook.xlsx.writeBuffer();
+    _this.ctx.set('Content-Type', 'application/vnd.openxmlformats');
+    _this.ctx.set('Content-Disposition', "attachment;filename*=UTF-8' '" + encodeURIComponent(name) + '.xlsx');
+    _this.ctx.body = await workbook.xlsx.writeBuffer();
 }
 
-exports.excelDown = async (data,title)=>{
-    let workbook = new Excel.Workbook();
-    workbook.creator = '陈康';
-    workbook.lastModifiedBy = 'Her';
-    workbook.created = new Date(1985, 8, 30);
-    workbook.modified = new Date();
-    workbook.lastPrinted = new Date(2016, 9, 27);
-    // 将工作簿日期设置为 1904 年日期系统
-    workbook.properties.date1904 = true;
-    // 在加载时强制工作簿计算属性
-    workbook.calcProperties.fullCalcOnLoad = true;
-    //添加工作表
-    // 创建带有红色标签颜色的工作表
-    let sheet = workbook.addWorksheet('My Sheet',{properties:{tabColor:{argb:'FFC0000'}}});
-    // 使用工作表 id 删除工作表
-    // workbook.removeWorksheet(sheet.id)
-    sheet.addRow(title);
-    // rowCenter(sheet, 6, 13);　
-    // colWidth(sheet, [1,2,3,4,5], 20);
-    let res = await workbook.xlsx.writeFile('test2.xlsx');
-    return res
-}
+
 exports.parse = (param) =>{
     console.log('param====>',param)
     // return JOSN.parse(param)
