@@ -54,6 +54,16 @@ module.exports = appInfo => {
         bodyName: '_csrf', // 通过 body 传递 CSRF token 的默认字段为 _csrf
       },
     }
+    config.io = {
+      init: { }, // passed to engine.io
+      // # 预处理器中间件, 我们这里配置了一个auth, 进行权限判断, 它对应的文件是/app/io/middleware/auth.js, 这里可以配置多个文件, 用逗号隔开
+      namespace: {
+        '/': {
+          connectionMiddleware: ['auth'],
+          packetMiddleware: [],
+        },
+      },
+    };
     //数据库配置链接
     config.sequelize = {
       dialect:'mysql',
