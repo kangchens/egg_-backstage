@@ -10,7 +10,7 @@ class HomeController extends Controller {
     const nsp = app.io.of('/');
     if(nsp.sockets[id]){
      // 通过id给指定socket连接发送消息
-      nsp.sockets[id].emit('res', 'hello http....');
+      nsp.sockets[id].emit('res', "what's happend");
     }
     this.ctx.body = "发送成功";
   }
