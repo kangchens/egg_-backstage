@@ -18,7 +18,7 @@ class UserController extends Controller{
      * @summary 用户登录
      * @description 用户登录 用户名 / 用户密码
      * @router post /user/login
-     * @request body loginRequset *body
+     * @request body loginRequset *body 
      * @response 200 loginResponse 登录成功
      */
     async loginUser(){

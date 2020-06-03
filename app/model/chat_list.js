@@ -6,9 +6,20 @@ module.exports = app =>{
             allowNull: false,
             primaryKey: true,
             field: 'id' 
+        },
+        message:{
+            type:STRING(1000),
+            allowNull:false,
+            field:'message'
         }
     },{
-        tableName:'chat_list'
+        tableName:'chat_list',
+        // 不要忘记启用时间戳！
+        timestamps: true,
+        // 不想要 createdAt
+        createdAt: true,
+        // 想要 updatedAt 但是希望名称叫做 updateTimestamp
+        updatedAt: 'updateTimestamp'
     })
     return ChatList
 }
