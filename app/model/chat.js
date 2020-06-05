@@ -2,7 +2,7 @@ module.exports = app =>{
     const {INTEGER,STRING} = app.Sequelize;
     const Chat = app.model.define('chat',{
         id:{
-            type:INTEGER(10),
+            type:STRING(225),
             allowNull:false,
             primaryKey:true,
             field:'id'
@@ -19,6 +19,7 @@ module.exports = app =>{
         chatId:{
             type:INTEGER(10),
             allowNull:false,
+            autoIncrement: true,
             references:{
                 model:'chat_list',
                 key:'id'
@@ -35,7 +36,7 @@ module.exports = app =>{
         updatedAt: 'updateTimestamp'
     })
     Chat.associate = function(){
-
+        app.model.Chat.hasMany(app.model.ChatList,{foreignKey:'id',targetKey:'chatId',constraints: false})
     }
     return Chat;
 }

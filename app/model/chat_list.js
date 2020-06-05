@@ -2,9 +2,10 @@ module.exports = app =>{
     const {INTEGER,STRING} = app.Sequelize
     const ChatList = app.model.define('chatList',{
         id:{
-            type: INTEGER(10),
+            type:INTEGER(10),
             allowNull: false,
             primaryKey: true,
+            autoIncrement: true,
             field: 'id' 
         },
         message:{
@@ -21,5 +22,8 @@ module.exports = app =>{
         // 想要 updatedAt 但是希望名称叫做 updateTimestamp
         updatedAt: 'updateTimestamp'
     })
+    ChatList.associate = function(){
+        app.model.ChatList.belongsTo
+    }
     return ChatList
 }

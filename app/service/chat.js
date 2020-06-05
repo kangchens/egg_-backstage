@@ -2,7 +2,7 @@ const {Service} = require('egg');
 class ChatService extends Service{
     async selectChat(obj){
         let {id,userId,chatId} = obj;
-        const uuid = await this.service.tool.uuid();
+        // const uuid = await this.service.tool.uuid();
         const [user, created] = await this.app.model.Chat.findOrCreate({
             where:{
                 id
@@ -10,7 +10,6 @@ class ChatService extends Service{
             defaults:{
                 id,
                 userId,
-                chatId:uuid
             }
         })
         if(user){
