@@ -23,7 +23,7 @@ module.exports = app =>{
         updatedAt: 'updateTimestamp'
     })
     ChatList.associate = function(){
-        app.model.ChatList.belongsTo
+        app.model.ChatList.belongsTo(app.model.Chat,{foreignKey:'id',targetKey:'chatId',constraints: false})
     }
     return ChatList
 }

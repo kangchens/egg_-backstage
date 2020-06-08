@@ -20,8 +20,6 @@ class AppBootHook {
   
     //   await this.app.model.sync({force: false,alter:true});
       const ctx = await this.app.createAnonymousContext();
-      console.log('ctx=============================>',ctx)
-      await ctx.service.Biz.request();
     }
     async serverDidReady() {
       // http / https server 已启动，开始接受外部请求
