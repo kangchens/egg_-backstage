@@ -27,6 +27,12 @@ module.exports = app =>{
             allowNull: false,
             field: 'email'
         },
+        role:{
+            type:INTEGER,
+            allowNull:false,
+            field:'role',
+            defaultValue:0
+        },
         isSuper:{
             type:STRING(255),
             allowNull:true,

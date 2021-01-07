@@ -110,4 +110,22 @@ module.exports = class User extends Service{
         }
         // console.log('object========>',object)
     }
+    /**查看详情 */
+    async getDetail(object){
+        let {id} = object
+        let result = await this.app.model.User.findOne({
+            where: { id: id },
+            include:{
+                model: this.app.model.UserRole,
+                where:{
+                    userId:id
+                }
+              }
+        })
+        if(result){
+            return result
+        }else{
+            return false
+        }
+    }
 }

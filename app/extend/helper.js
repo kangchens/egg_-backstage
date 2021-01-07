@@ -130,3 +130,21 @@ exports.parse = (param) =>{
     console.log('param====>',param)
     // return JOSN.parse(param)
 }
+module.exports = {
+    body(data){
+        console.log('data==================================================================================================>',this.app )
+        if(!data){
+            this.ctx.body={
+                code:0,
+                message:false,
+                data:null
+            }
+        }else{
+            this.ctx.body={
+                code:0,
+                message:true,
+                data:data
+            }
+        }
+    }
+}

@@ -125,7 +125,7 @@ class UserController extends Controller{
       }else{
         this.ctx.body={
           code:1,
-          message:'获取失败',
+          message:false,
           data:null
         }
       }
@@ -151,6 +151,17 @@ class UserController extends Controller{
           data:null
         }
       }
+    }
+    /**
+     * @summary 获得用户详情
+     * @description 获取用户详细信息 
+     * @router get /user/getDetail
+     * @response 200 loginoutResponse 获取成功
+     */
+    async getDetail(){
+        let result = await this.ctx.service.user.getDetail(this.ctx.query);
+        console.log('this.ctx.helper',this.ctx.helper)
+        this.ctx.helper.body(result)
     }
 }
 module.exports = UserController;

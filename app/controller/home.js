@@ -5,6 +5,11 @@ const Controller = require('egg').Controller;
 class HomeController extends Controller {
   async index() {
     const { ctx ,query } = this;
+    this.ctx.body = "发送成功";
+  }
+  async next() {
+    const { ctx ,query } = this;
+    console.log('query===========================================================================================================',query)
     // 给谁发, socket连接的id
     const id = query.id;
     const nsp = app.io.of('/');
